@@ -1,0 +1,41 @@
+1- Install :
+ng add @angular/localize
+npm install @ngx-translate/core
+npm install @ngx-translate/http-loader
+
+2- In 'angular.json' Add:
+      "i18n": {
+        "sourceLocale":"en-US",
+        "locales": {
+          "en": "projects/main_app/src/assets/messages_en.json",
+          "ar": "projects/main_app/src/assets/messages_ar.json"
+        }
+      }
+
+3- Create this files in:
+assets/i18n/messages_ar.json
+assets/i18n/messages_en.json
+
+4- In the 'app.module.ts' add:
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/messages_', '.json');
+}
+
+  imports: [
+  ...
+  ...
+  HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage : 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    })
+  ]
+
