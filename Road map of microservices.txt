@@ -1,0 +1,31 @@
+Requirements:
+- Node.js v18.20.4
+- Angular CLI: 18.2.1
+- single-spa 5.9.3
+
+1- Buld a base application (single-spa root config):
+   -> Open 'command' and run: create-single-spa
+      - if geting error 'Error: Invalid version: "1"'
+        Run: npm init -y
+   -> Select 'single-spa root config'
+   -> Select 'npm'
+   -> Use Typescript? Y
+   -> Use single-spa Layout Engine? Y
+   -> Open 'command' and navigate to folder of the base application
+   -> Open the project you just created by Visual Code
+   -> Run 'npm run start' to test the application
+
+2- Buld angular application:
+   -> Run: ng new AngularProjectName --no-standalone --routing
+   -> To add single-spa to this project navigate to folder you just created and run: ng add single-spa-angular
+   -> Open the project you just created by Visual Code
+   -> Navigate to 'src' and open 'main.single-spa.ts' file, add (import 'zone.js';)
+
+3- Go back to base application (single-spa root config):
+   -> Open it by Visual Code
+   -> Navigate to 'src' and open 'index.ejs' file, On line 49 inside imports add this lines:
+      "zone.js": "https://cdn.jsdelivr.net/npm/zone.js@0.11.7/dist/zone.min.js",
+      "@angular-app/YourAngularProjectName": "http://localhost:YourAngularProjectPort/main.js"
+   -> Navigate to 'src' and open 'microfrontend-layout.html' file, On line 21 inside route add this line:
+      <application name="@angular-app/YourAngularProjectName"></application>
+   -> Run 'npm run start' to start the application
